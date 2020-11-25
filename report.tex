@@ -58,11 +58,11 @@
 
 \begin{document}
 
-\begin{frame}
+\begin{frame}[c]
     \titlepage
 \end{frame}
 
-\begin{frame}
+\begin{frame}[c]
     \frametitle{Statement of the problem}
     \begin{columns}
         \begin{column}{0.5\textwidth}
@@ -75,7 +75,7 @@
 \end{frame}
 
 % Создаем анимацию посредством копирования слайда :-)
-\begin{frame}
+\begin{frame}[c]
     \frametitle{Statement of the problem}
     \begin{columns}
         \begin{column}{0.38\textwidth}
@@ -87,7 +87,7 @@
     \end{columns}
 \end{frame}
 
-\begin{frame}
+\begin{frame}[c]
     \frametitle{Detector}
     \begin{figure}
         \includegraphics[width=0.55\linewidth]{detector_structure.eps}
@@ -100,7 +100,7 @@
     \end{figure}
 \end{frame}
 
-\begin{frame}[allowframebreaks]
+\begin{frame}[c,allowframebreaks]
     \frametitle{Statement of the problem}
     As we know~\cite{PaluszynskiSlowko2005Vacuum, DrzazgaPaluszynski2005Measurement} signal
     intensity is proportional to inclination angle of surface in corresponding point:
@@ -137,7 +137,7 @@
 
 \end{frame}
 
-\begin{frame}[allowframebreaks]
+\begin{frame}[c,allowframebreaks]
     \frametitle{Reconstruction of gradient}
 
     Applying the method of calibrating surface (Fig.~\ref{fig:inputSphere}), described in~\cite{main},
@@ -150,7 +150,7 @@
         {\label{fig:inputSphere}}% chktex 8
     \end{figure}
 
-    \newpage
+    \framebreak
 
     \begin{figure}
         \includegraphics[width=0.9\linewidth]{Tables.eps}
@@ -158,7 +158,7 @@
         {\label{fig:Tables}}% chktex 8
     \end{figure}
 
-    \newpage
+    \framebreak
 
     \begin{figure}
         \includegraphics[width=0.5\linewidth]{P.eps}
@@ -178,7 +178,7 @@
 
 \end{frame}
 
-\begin{frame}[allowframebreaks]
+\begin{frame}[c,allowframebreaks]
     \frametitle{Surface reconstruction}
 
     \begin{figure}
@@ -229,7 +229,7 @@
 % --------------------------------------------------------------------------------------------------
 % --------------------------- N U M E R I C A L   R E A L I Z A T I O N ----------------------------
 % --------------------------------------------------------------------------------------------------
-\begin{frame}[allowframebreaks]
+\begin{frame}[c,allowframebreaks]
     \frametitle{Numerical realization}
 
     Input data ((a) and (b) at Fig.~\ref{fig:input_data}) is represented as matrices $K^x$, $K^y$
@@ -245,7 +245,7 @@
     and add an initial condition $Z(x_0,y_0) = 0$, which is chosen arbitrarily for any point
     $(x_0,y_0) \in S$ (it is convenient to use $(x_0,y_0) \equiv (0,0)$).
 
-    \newpage
+    \framebreak
 
     Thus, the following problem should be solved:
     \begin{equation}
@@ -258,7 +258,7 @@
         \right.
     \end{equation}
 
-    \newpage
+    \framebreak
 
     Transform observed values of $J_x$ as follows:
     \begin{equation}
@@ -308,7 +308,7 @@
     \end{equation*}
     Here matrix $\hat{A}$ with sizes $(2N^2 \times N^2)$ represents a finite difference approximation of operators $\frac{\partial}{\partial x}$ (first $N^2$ rows) and $\frac{\partial}{\partial y}$ (the last $N^2$ rows).
 
-    \newpage
+    \framebreak
 
     Its components are represented as
     where $h$ is a constant distance between two neighboring sample points along axis $X$ or $Y$.
@@ -317,14 +317,14 @@
     \begin{equation*}
         \hat{Z} = \operatorname{argmin}\limits_Z \|\hat{A} Z - B\|^2.
     \end{equation*}
-% --------------------------------------------------------------------------------------------------
+
 \end{frame}
 % --------------------------------------------------------------------------------------------------
 
 % --------------------------------------------------------------------------------------------------
 % -------------------------------- G A L L E R Y ---------------------------------------------------
 % --------------------------------------------------------------------------------------------------
-\begin{frame}[allowframebreaks]
+\begin{frame}[c,allowframebreaks]
     \frametitle{Gallery}
 
     \begin{figure}
@@ -333,7 +333,7 @@
         {\label{fig:berger}}% chktex 8
     \end{figure}
 
-\newpage
+\framebreak
 
     \begin{figure}
         \includegraphics[width=0.8\linewidth]{indentor-source.eps}
@@ -341,7 +341,7 @@
         {\label{fig:indentor-source}}% chktex 8
     \end{figure}
 
-\newpage
+\framebreak
 
     \begin{figure}
         \includegraphics[width=0.5\linewidth]{indentor.eps}
@@ -351,11 +351,11 @@
 
 \end{frame}
 
-\begin{frame}[allowframebreaks]
+\begin{frame}[c,allowframebreaks]
     \bibliography{bibliography}
 \end{frame}
 
-\begin{frame}
+\begin{frame}[c]
     \frametitle{Thanks for attention!}
     Presentation source and text available through links:
     \url{https://github.com/aborzunov/20201201}
@@ -363,6 +363,6 @@
         \includegraphics[width=0.5\linewidth]{repo_link.png}
     \end{figure}
     \usebeamerfont{institute} Contact: \url{Andrey.Borzunov@gmail.com}
-
 \end{frame}
+
 \end{document}
