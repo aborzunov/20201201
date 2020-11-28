@@ -42,6 +42,13 @@
 \usepackage{color}
 \graphicspath{{./images/}}
 
+\AtBeginSection[]
+{
+    \begin{frame}
+        \frametitle{Table of Contents}
+        \tableofcontents[currentsection]
+    \end{frame}
+}
 
 %Information to be included in the title page:
 \title[3D surface reconstruction in SEM BE]{Reconstruction algorithm of 3D
@@ -58,8 +65,243 @@
 
 \begin{document}
 
-\begin{frame}[c]
+\begin{frame}
     \titlepage
+\end{frame}
+
+\begin{frame}[c, allowframebreaks]
+    \begin{itemize}
+    \small
+        \item V.A.Antonyuk, E.I.Rau, D.O.Savin, V.P.Trifonenkov, A.G.Yagola. Two-dimensional microfields space distribution restoration by means of reconstructive numerical tomography. – Izvestia AN SSSR, ser. fizicheskaya, 51, N 3, 1987, p. 475-479 (in Russian).
+        \item E.I.Rau, A.G.Yagola, D.O.Savin, V.A.Antonyuk, V.P.Trifonenkov. The method of investigation of two-dimensional scattering microfields. - Author’s confirmation N 1393221, 1988 (in Russian).
+        \item S.K.Likharev, E.I.Rau, V.P.Trifonenkov, A.G.Yagola. Microtomography of semiconductor structures in regyme of the induced current. - Doklady AN SSSR, 307, N 4, 1989, p. 840-844 (in Russian).
+        \item K.Yu. Dorofeev, E.I. Rau, R.A. Sennov, A.G.Yagola. On possibility of cathodoluminiscence microtomography. - Vestnik Moskovskogo Universiteta, ser. 3. Fizika. Astronomia, N 2, 2002, p. 73-75 (in Russian).
+        \item E.I. Rau, R.A. Sennov, K.Yu. Dorofeev, A.G.Yagola, Yu. Liu, J. Phang, D. Chan. Basic principles of cathodoluminiscence microtomography with use of confocal mirror optics. – Surface. Roentgen, Synchrotron and Neutron Investigations, 2002, № 10, p. 85-92 (in Russian).
+        \item D.V. Zot'ev, M.N. Filippov, and A.G. Yagola. On one inverse problem of quantative electron probe microanalysis.  – Numerical Methods and Programming, 2003, v. 4, section 1, pp. 26-32 (in Russian).
+        \item A.V. Bolotina, F.A. Luk’yanov, E.I. Rau, R.A. Sennov, A.G. Yagola. Energy spectra of electrons backscattered from bulk solid targets. – Moscow University Physics Bulletin, 2009, Vol. 64, No 5, pp. 503-506.
+        \item N.A. Koshev, F.A. Lukyanov, E.I. Rau, R.A Sennov, A.G. Yagola. Increasing spatial resolution in back scattered electrons regime of scanning electron microscopy . – Izvestia RAS, physical series, 2011, v.75, №9, с. 1248-1251 (in Russian).
+        \item N.A. Koshev, N.A. Orlikovsky, E.I. Rau, A.G. Yagola.  Solution of the inverse problem of restoring the signals from an electronic microscope in the backscattered electron mode on the class of bounded variation functions. - Numerical Methods and Programming, 2011, v. 12, pp. 362-367 (in Russian).
+        \item A.A. Borzunov, V.Y Karaulov, N.A. Koshev, D.V. Lukyanenko, E.I. Rau, A.G. Yagola, S.V. Zaitsev. 3D surface topography imaging in SEM with improved backscattered electron detector: arrangement and reconstruction algorithm. – Ultramicroscopy, 2019, v. 207, published online, pp. 1-9,  https://doi.org/10.1016/j.ultramic.2019.112830
+        \item A. A. Borzunov, D. V. Lukyanenko, E. I. Rau, and A. G. Yagola. Reconstruction algorithm of 3D surface in scanning electron microscopy with backscattered electron detector. Journal of Inverse and Ill-posed Problems, 2020 (in print).
+    \end{itemize}
+\end{frame}
+
+% --------------------------------------------------------------------------------------------------
+% -------------------------Q U A N T I T A T I V E    E L E C T R O N   P R O B E ------------------
+% --------------------------------------------------------------------------------------------------
+\section{One inverse problem of quantitative electron probe microanalysis}
+\begin{frame}[c]
+    \sectionpage
+\end{frame}
+
+\begin{frame}[c, allowframebreaks]
+    \frametitle{Problem statement}
+    \begin{figure}
+        \includegraphics[width=0.6\linewidth]{h1.png}\label{fig:h1}
+    \end{figure}
+
+    \framebreak
+
+    \begin{figure}
+        \includegraphics[width=0.6\linewidth]{h2.png}\label{fig:h2}
+    \end{figure}
+
+    \framebreak
+
+    \begin{equation}
+        A \varphi = I_{\delta}^{om},
+        \label{eq:p1_problem_statement}
+    \end{equation}
+    where
+    $$ A\varphi = \int_0^{\rho r} K(\rho z, \gamma) \varphi(\rho z) d \rho z, $$
+    $\delta > 0$ - error of assignment of the right part of the
+    equation~(\ref{eq:p1_problem_statement}), i.e.
+    $ || I_\delta^{rel} - \overline{I}^{rel} || \le \delta$,
+    $A \overline{\varphi} = \overline{I}^{rel},$
+    $I^{rel} = \dfrac{I}{I(0)}$ - relative intensity.
+\end{frame}
+
+\begin{frame}[c, allowframebreaks]
+    \begin{equation}
+        F[\varphi] = || A\varphi - I_\delta||^2_{L_2},
+    \end{equation}
+
+    At that it is enough to find such element $\varphi_\delta$ that $F[\varphi] \le \delta^2$.
+
+    \begin{equation}
+        f(\varphi) = \sum_{j=1}^{N_\gamma}
+        \left( \sum_{i=1}^{N_{\rho z}} K_{ij} \varphi_i h_{\rho z} - I_j^{om} \right)^2 h_\gamma
+    \end{equation}
+
+    At finite-difference approximation set Z transforms into set
+
+    \begin{equation}
+        \hat{Z} =
+        \left\{
+            \begin{array}{ll}
+                \varphi_{i-1} - 2\varphi_i + \varphi_{i+1} \le 0,
+                    & i = 2, \ldots, N_{\text{infl}} - 1         \\
+                \varphi: \varphi_{i-1} - 2\varphi_i + \varphi_{i+1} \ge 0,
+                    & i = N_{\text{infl}} + 1, \ldots, N_{\rho z} - 1,  \\
+                \varphi_i \ge 0, & i = 1,2, \ldots, N_{\rho z}
+            \end{array}
+        \right\}
+    \end{equation}
+
+    \framebreak
+
+    Let $T^{(j)}$, $j = 0, 1, \ldots, m$, $(m = N_{\rho z})$~-- apexes of a convex limited
+    polyhedron $\hat{Z}$.
+
+    \begin{Lemma}
+        Let $\varphi \in \hat{Z}$. Then the unique representation is correct
+        $$ \varphi = \sum_{j=1}^{m} a_j T^{(j)},$$
+        at that $a_j \ge 0, j = 1, 2, \ldots, m$.
+     \end{Lemma}
+     \begin{proof}
+        Let us examine operator $T$ from $R^m$ in $R^n$, determined by the formula
+        $$ T \zeta = \sum_{j=1}^m \zeta_{j} T^{(j)}, \qquad \zeta \in R^m.$$
+
+        It is obvious, that $TR^m_+ = \hat{Z}$ and $T^{-1}\hat{Z} = R_+^m$,
+        where $R_+^m$~-- set of vectors $R_+^m \subset R^m$, that have all non-negative coordinates
+        $\zeta \in R_+^m$, if $\zeta_j \ge 0, j = 1,2, \ldots, m$.
+
+        Lets us examine function $Y(\zeta) = f(T\zeta)$, determined on set of $R_+^m$.
+
+        We need to find such an element $\zeta_\delta \in R_+^m$, that
+        $Y(\zeta_\delta) \le \delta^2$. The approximate solution of the original problem is found
+        then by the formula $\varphi_\delta = T\zeta_\delta$.
+        \qedhere
+     \end{proof}
+
+\end{frame}
+
+\begin{frame}[c, allowframebreaks]
+\frametitle{Numerical results}
+
+    \begin{figure}[t]
+        \includegraphics[width=0.6\linewidth]{h3.eps}\label{fig:h3}
+    \end{figure}
+
+    \framebreak
+
+    \begin{figure}
+        \includegraphics[width=0.7\linewidth]{h4.png}\label{fig:h4}
+    \end{figure}
+
+    \framebreak
+
+    \begin{figure}
+        \includegraphics[width=0.7\linewidth]{h5.png}\label{fig:h5}
+    \end{figure}
+
+\end{frame}
+%---------------------------------------------------------------------------------------------------
+%---------------------------------------------------------------------------------------------------
+
+% --------------------------------------------------------------------------------------------------
+% ------------------------- C A T H O D O L U M I N E S C E N C E ----------------------------------
+% --------------------------------------------------------------------------------------------------
+\section{Inverse problem of cathodoluminescence microtomography}
+\begin{frame}
+    \sectionpage
+\end{frame}
+
+\begin{frame}[c]
+    \frametitle{The Scheme of Installation}
+
+    \begin{columns}
+        \begin{column}{0.68\textwidth}
+            \begin{figure}
+                \includegraphics[width=1.0\linewidth]{h6.eps}\label{fig:h6}
+            \end{figure}
+        \end{column}
+        \begin{column}{0.28\textwidth}
+            1. Focused electrical probe \\
+            2. Object under investigation \\
+            3. Region of generation of nonequilibrium carriers \\
+            4. Ellipsoidal mirror \\
+            5. Diaphragm with detector \\
+        \end{column}
+    \end{columns}
+
+\end{frame}
+
+\begin{frame}[c, allowframebreaks]{Problem}
+    Develop method for determination of optoelectrical local properties of cathodoluminescence
+    objects with resolution of micrometer part, having at our disposal the set of measurements
+    of intensity values.
+
+    Describe the scheme of experiment, mathematical statement and the method of  solution of the
+    problem, which is ill-posed.
+
+    The interaction of focused electrical probe with cathodoluminescence substance was modulated. An
+    alternative method of microtomography in cathodolumenscence mode is presented. The solution is
+    based on confocal ellipsoidal mirror [Phang J.C.H, Chan D.C.H.].
+
+    The photon rays transport in luminescence volume of specimen and ellipsoid are calculated.
+
+    \framebreak
+
+    We have to solve the next inverse problem:
+define the internal quantum yield of the material
+$$ \eta (s), s \in [0, R_0] $$
+
+from Fredholm integral equation of the first kind:
+$$ I(x) = \int_0^{R_0} K_1 (x, s) \eta (s) ds, $$
+$x$~-- the deflection of the object in respect to the mirror $ I(x) \in L_2 [x_{min}, x_max],
+\eta (s) \in [0, R_0]$, where $I(x)$~-- intensity, measured in experiment, as function of deflection
+of the object in vertical direction, $s$~-- the distance from the surface of the object,
+$R_0$~--maximal depth of penetration of electrons into the object, $K_1(x,s)$~-- some continuous
+function, which was calculated by numerical methods (the physical sense of  is that $K_1(x,s) ds$ is
+the contribution into the total intensity the layer with center on the depth $s$ and thickness
+$ds$).
+
+\end{frame}
+
+\begin{frame}[c]{A Priori Information}
+    Let it is known that the solution of the problem is sourcewise represented with help of
+    completely continuous integral operator:
+
+    $$ \eta = \int_0^{R_0} K_2(x,\xi) \eta_0(\xi)d\xi, \; s \in [0, R_0] $$,
+    where
+    $$ K_2 = \left\{
+        \begin{array}{cc}
+            \cos{ ( \frac{s - \xi}{2} \pi) }, & |s - \xi| \le 2, \\
+            0, & \text{otherwise}
+        \end{array}
+        \right.
+    $$
+    We shall consider that:
+    $$ \eta_0 \in L_2[0,R_0] $$
+    For solving the problem under such a priori information the method of extending compacts,
+    which was described above, is used.
+\end{frame}
+
+\begin{frame}[c, allowframebreaks]{Model Calculations Results}
+
+    \begin{figure}[t]
+        \includegraphics[width=1.0\linewidth]{h7.png}\label{fig:h7}
+    \end{figure}
+
+    \framebreak
+
+    \begin{figure}
+        \includegraphics[width=1.0\linewidth]{h8.png}\label{fig:h8}
+    \end{figure}
+\end{frame}
+
+
+%---------------------------------------------------------------------------------------------------
+%---------------------------------------------------------------------------------------------------
+
+% --------------------------------------------------------------------------------------------------
+% --------------------------- N E W   P A R T --------S E M B E --------------------------------------
+% --------------------------------------------------------------------------------------------------
+\section{3D surface topography imaging in SEM with improved backscattered T
+electron detector: Arrangement and reconstruction algorithm}
+\begin{frame}
+    \sectionpage
 \end{frame}
 
 \begin{frame}[c]
@@ -166,7 +408,7 @@
         {\label{fig:input_data}}% chktex 8
     \end{figure}
 
-    Input data ((a) and (b) in Fig.~\ref{fig:input_data}) is represented as matrices $K^x$, $K^y$
+    Input data ((a) and (b) in Fig.~\ref{fig:input_data}) are represented as matrices $K^x$, $K^y$
     with sizes $(N \times N)$, their represent the signal intensities $k^x_{i,j} \equiv K^x (i,j)$,
     $K^y_{i,j} \equiv k^y (i,j)$ at points $(x_j, y_i) \in S$, $i,j = \overline{1,N}$, their values
     are normed at $1$.
